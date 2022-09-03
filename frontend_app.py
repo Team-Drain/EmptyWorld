@@ -18,6 +18,9 @@ pic = st.file_uploader("Please upload a picture in png or jpg format",
                 key=None, help=None, on_change=None, 
                 args=None, kwargs=None, disabled=False)
 
+
+
+
 if pic: 
     image = Image.open(pic)
     ## hook backend here 
@@ -31,8 +34,9 @@ if pic:
         contributed = False    
 
         if st.button("Contribute to the map?", disabled = contributed):
-            contributed = True
-        if contributed:
+            # contributed = True
+
+        # if contributed:
             st.write("#Nature is reclaimed!")
 
             credentials = service_account.Credentials.from_service_account_info(
@@ -60,8 +64,6 @@ if pic:
             st.write(f"here {blob.public_url}")   
 else:
     st.write("Please upload an image in a jpeg or png format!") 
-
-
 
 
 if st.button("Reset?"):
