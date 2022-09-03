@@ -1,5 +1,12 @@
 import streamlit as st 
 from PIL import Image
+from io import BytesIO
+import pandas as pd
+from google.cloud import storage
+
+import uuid
+
+GLOBAL_BUCKET = "fella-remova-photos"
 
 
 st.write("""
@@ -24,8 +31,27 @@ if pic:
         contributed = False 
         if st.button("Contribute to the map?", disabled = contributed):
             contributed = True
-            st.write("Nature is reclaimed!")
-            # add the image to our database
+        st.write("Nature is reclaimed!")
+        # add the image to our database
+        
+
+        storage_client = storage.Client.from_service_account_json("./autho/", project='fella-remova')
+
+        bucket = storage_client.get_bucket(GLOBAL_BUCKET)
+
+        imageName =f"{uuid.uuid1()}"
+        path = f"{imageName}"
+
+        blob = bucket.blob(f"{GLOBAL_BUCKET}/{imageName}.jpg")
+
+        blob.content_type = "image/jpeg"
+        st.write(f"writing")
+        with open(path, 'rb') as f:
+            blob.upload_from_file(f)
+            st.write(f"here {blob.public_url}")
+        
+
+
 
 
 else:
