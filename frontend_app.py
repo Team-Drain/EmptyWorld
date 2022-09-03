@@ -5,18 +5,15 @@ import pandas as pd
 from google.oauth2 import service_account
 from google.cloud import storage
 import base64
-
 import uuid
 
-GLOBAL_BUCKET = "fella-remova-photos"
-
+BUCKET_NAME = "photos"
 
 st.write("""
-# Peopla Remova 
-Reclaim nature! 
+# See what the world looks like without people in the way
 """)
 
-pic = st.file_uploader("Picture to remove all the people", 
+pic = st.file_uploader("Please upload a picture in png or jpg format", 
                 type=["png", "jpg"], accept_multiple_files=False, 
                 key=None, help=None, on_change=None, 
                 args=None, kwargs=None, disabled=False)
@@ -51,7 +48,6 @@ if pic:
 
             blob = bucket.blob(f"{imageName}")
             # /{imageName}.jpg")
-
             # blob.content_type = "image/jpeg"
             st.write(f"writing")
             # with open(path, 'rb') as f:
