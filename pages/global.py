@@ -1,13 +1,12 @@
 import streamlit as st
 import urllib, io
 from PIL import Image
-  
-
-
-
-
 from google.oauth2 import service_account
 from google.cloud import storage
+
+
+BUCKET_NAME = "fella-remova-photos"
+#  = "maxresdefault.jpg"
 
 st.write("""
 # What's out there? See what a 0 person world looks like
@@ -29,17 +28,20 @@ def read_file(bucket_name, file_path):
     content = bucket.blob(file_path).download_as_string()
     return content
 
-bucket_name = "fella-remova-photos"
-picture_name = "maxresdefault.jpg"
 
+# get all blobs 
+bucket = client.get_bucket(BUCKET_NAME)
+blobs = bucket.list_blobs()
 
-URL='https://storage.googleapis.com/{}/{}'.format(bucket_name,picture_name)
+for blob in blobs:
+    
+    # URL='https://storage.googleapis.com/{}/{}'.format(bucket_name,picture_name)
+    picture_name = blob.name 
+    x = read_file(BUCKET_NAME, picture_name)
 
-x = read_file(bucket_name,picture_name)
+    bytes = io.BytesIO(x)
+    im = Image.open(bytes)
 
-bytes = io.BytesIO(x)
-im = Image.open(bytes)
-
-st.image(im,caption="WHO IN?")
+    st.image(im)
 
 
