@@ -30,11 +30,13 @@ if pic:
     if st.button("Remove People in this image?"):
         # implement back end here
         # once image is done ask to contribute to the database
-        contributed = False 
+
+        contributed = False    
+
         if st.button("Contribute to the map?", disabled = contributed):
             contributed = True
         if contributed:
-            st.write("Nature is reclaimed!")
+            st.write("#Nature is reclaimed!")
 
             credentials = service_account.Credentials.from_service_account_info(
             st.secrets["gcp_service_account"]
@@ -44,9 +46,7 @@ if pic:
 
             bucket = client.get_bucket(GLOBAL_BUCKET)
             
-            
-
-            imageName =f"{uuid.uuid1()}"
+            imageName =f"{uuid.uuid1()}.jpeg"
             path = f"{imageName}"
 
             blob = bucket.blob(f"{imageName}")
@@ -60,7 +60,6 @@ if pic:
             bs = BytesIO()
             image.save(bs, "jpeg")
             blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
-
 
             st.write(f"here {blob.public_url}")   
 else:
