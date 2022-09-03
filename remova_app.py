@@ -43,11 +43,14 @@ if pic:
             client = storage.Client(credentials=credentials)
 
             bucket = client.get_bucket(GLOBAL_BUCKET)
+            
+            
 
             imageName =f"{uuid.uuid1()}"
             path = f"{imageName}"
 
-            blob = bucket.blob(f"{GLOBAL_BUCKET}/{imageName}.jpg")
+            blob = bucket.blob(f"{GLOBAL_BUCKET}")
+            # /{imageName}.jpg")
 
             # blob.content_type = "image/jpeg"
             st.write(f"writing")
