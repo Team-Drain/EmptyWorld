@@ -3,6 +3,7 @@ from PIL import Image
 from io import BytesIO
 import pandas as pd
 from google.cloud import storage
+import base64
 
 import uuid
 
@@ -32,9 +33,7 @@ if pic:
         if st.button("Contribute to the map?", disabled = contributed):
             contributed = True
         st.write("Nature is reclaimed!")
-        # add the image to our database
-        
-
+        # add the image to our databas
         storage_client = storage.Client.from_service_account_json("./autho/", project='fella-remova')
 
         bucket = storage_client.get_bucket(GLOBAL_BUCKET)
@@ -46,9 +45,10 @@ if pic:
 
         blob.content_type = "image/jpeg"
         st.write(f"writing")
-        with open(path, 'rb') as f:
-            blob.upload_from_file(f)
-            st.write(f"here {blob.public_url}")   
+        # with open(path, 'rb') as f:
+        converted_string = base64.b64encode(image.read())
+        blob.upload_from_string(converted_string)
+        st.write(f"here {blob.public_url}")   
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
