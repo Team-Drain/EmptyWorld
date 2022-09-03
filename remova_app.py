@@ -49,7 +49,7 @@ if pic:
             imageName =f"{uuid.uuid1()}"
             path = f"{imageName}"
 
-            blob = bucket.blob(f"{GLOBAL_BUCKET}")
+            blob = bucket.blob(f"{imageName}")
             # /{imageName}.jpg")
 
             # blob.content_type = "image/jpeg"
