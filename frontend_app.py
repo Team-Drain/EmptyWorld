@@ -19,7 +19,7 @@ pic = st.file_uploader("Please upload a picture in png or jpg format",
                 args=None, kwargs=None, disabled=False)
 
 
-
+image = None 
 
 if pic: 
     image = Image.open(pic)
@@ -35,7 +35,7 @@ if pic:
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
-if st.button("Contribute to the map?", disabled = contributed):
+if image != None and st.button("Contribute to the map?", disabled = contributed):
             # contributed = True
 # if contributed:
     st.write("#Nature is reclaimed!")
