@@ -48,12 +48,7 @@ if pic:
         st.write(f"writing")
         with open(path, 'rb') as f:
             blob.upload_from_file(f)
-            st.write(f"here {blob.public_url}")
-        
-
-
-
-
+            st.write(f"here {blob.public_url}")   
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
