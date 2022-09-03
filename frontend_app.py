@@ -35,7 +35,7 @@ if pic:
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
-if image != None and st.button("Contribute to the map?", disabled = contributed):
+if image != None and st.button("Contribute to the map?"):
             # contributed = True
 # if contributed:
     st.write("#Nature is reclaimed!")
