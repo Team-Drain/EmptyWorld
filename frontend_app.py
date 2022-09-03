@@ -7,7 +7,7 @@ from google.cloud import storage
 import base64
 import uuid
 
-BUCKET_NAME = "photos"
+BUCKET_NAME = "team-drain-photos"
 
 st.write("""
 # See what the world looks like without people in the way

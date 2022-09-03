@@ -5,7 +5,7 @@ from google.oauth2 import service_account
 from google.cloud import storage
 
 
-BUCKET_NAME = "photos"
+BUCKET_NAME = "team-drain-photos"
 
 st.write("""
 # See what the world looks like without people in the way
