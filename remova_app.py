@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image
 from io import BytesIO
 import pandas as pd
+from google.oauth2 import service_account
 from google.cloud import storage
 import base64
 
@@ -33,10 +34,14 @@ if pic:
         if st.button("Contribute to the map?", disabled = contributed):
             contributed = True
         st.write("Nature is reclaimed!")
-        # add the image to our databas
-        storage_client = storage.Client.from_service_account_json("./autho/", project='fella-remova')
 
-        bucket = storage_client.get_bucket(GLOBAL_BUCKET)
+        credentials = service_account.Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"]
+        )
+
+        client = storage.Client(credentials=credentials)
+
+        bucket = client.get_bucket(GLOBAL_BUCKET)
 
         imageName =f"{uuid.uuid1()}"
         path = f"{imageName}"
