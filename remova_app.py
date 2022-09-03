@@ -49,11 +49,16 @@ if pic:
 
             blob = bucket.blob(f"{GLOBAL_BUCKET}/{imageName}.jpg")
 
-            blob.content_type = "image/jpeg"
+            # blob.content_type = "image/jpeg"
             st.write(f"writing")
             # with open(path, 'rb') as f:
-            converted_string = base64.b64encode(image.read())
-            blob.upload_from_string(converted_string)
+            # converted_string = base64.b64encode(image.read())
+            # blob.upload_from_string(converted_string)
+            bs = BytesIO()
+            image.save(bs, "jpeg")
+            blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
+
+
             st.write(f"here {blob.public_url}")   
 else:
     st.write("Please upload an image in a jpeg or png format!") 

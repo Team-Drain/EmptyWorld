@@ -37,11 +37,15 @@ for blob in blobs:
     
     # URL='https://storage.googleapis.com/{}/{}'.format(bucket_name,picture_name)
     picture_name = blob.name 
-    x = read_file(BUCKET_NAME, picture_name)
+    # x = read_file(BUCKET_NAME, picture_name)
 
-    bytes = io.BytesIO(x)
-    im = Image.open(bytes)
+    # b = io.BytesIO(x)
 
-    st.image(im)
+    # blob = bucket.blob(destination_blob_filename)
+    downloaded_im_data = blob.download_as_bytes()
+    downloaded_im = Image.open(io.BytesIO(downloaded_im_data))
+    # im = Image.open(b)
+
+    st.image(downloaded_im)
 
 
