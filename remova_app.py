@@ -33,27 +33,28 @@ if pic:
         contributed = False 
         if st.button("Contribute to the map?", disabled = contributed):
             contributed = True
-        st.write("Nature is reclaimed!")
+        if contributed:
+            st.write("Nature is reclaimed!")
 
-        credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"]
-        )
+            credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"]
+            )
 
-        client = storage.Client(credentials=credentials)
+            client = storage.Client(credentials=credentials)
 
-        bucket = client.get_bucket(GLOBAL_BUCKET)
+            bucket = client.get_bucket(GLOBAL_BUCKET)
 
-        imageName =f"{uuid.uuid1()}"
-        path = f"{imageName}"
+            imageName =f"{uuid.uuid1()}"
+            path = f"{imageName}"
 
-        blob = bucket.blob(f"{GLOBAL_BUCKET}/{imageName}.jpg")
+            blob = bucket.blob(f"{GLOBAL_BUCKET}/{imageName}.jpg")
 
-        blob.content_type = "image/jpeg"
-        st.write(f"writing")
-        # with open(path, 'rb') as f:
-        converted_string = base64.b64encode(image.read())
-        blob.upload_from_string(converted_string)
-        st.write(f"here {blob.public_url}")   
+            blob.content_type = "image/jpeg"
+            st.write(f"writing")
+            # with open(path, 'rb') as f:
+            converted_string = base64.b64encode(image.read())
+            blob.upload_from_string(converted_string)
+            st.write(f"here {blob.public_url}")   
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
