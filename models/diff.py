@@ -15,13 +15,13 @@ def remove_people(image, image_mask, device="cpu"):
   image = image.resize((512, 512))
   image_mask = image_mask.resize((512, 512))
 
-  model_id_or_path = "/Users/josephli/Github/pennapps/stable-diffusion-v1-4"
+  model_id_or_path = "/home/jxli/stable-diffusion-v1-4"
   pipe = StableDiffusionInpaintPipeline.from_pretrained(model_id_or_path)
   pipe = pipe.to(device)
 
   prompt = "realistic photograph of scenery"
   with torch.no_grad():
-    res = pipe(prompt=prompt, init_image=image, mask_image=image_mask, strength=0.6, num_inference_steps=50)
+    res = pipe(prompt=prompt, init_image=image, mask_image=image_mask, strength=0.7, num_inference_steps=50)
     images = res["sample"]
 
   return images[0]

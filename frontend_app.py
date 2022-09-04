@@ -6,6 +6,7 @@ from google.cloud import storage
 import base64
 import uuid
 from streamlit.ScriptRunner import RerunException
+from models import do_it
 
 GLOBAL_BUCKET = "team-drain-photos"
 
@@ -30,7 +31,7 @@ if pic:
     if st.button("Remove People in this image?"):
         # implement back end here
         # once image is done ask to contribute to the database
-
+        convertedImage = do_it(image)
         print("backend here")
 else:
     st.write("Please upload an image in a jpeg or png format!") 
@@ -60,5 +61,10 @@ if convertedImage != None and st.button("Contribute to the map?"):
 
 
 if st.button("Reset?"):
+<<<<<<< HEAD
   
     raise RerunException
+=======
+    pic = None 
+    convertedImage = None 
+>>>>>>> e611f3aec92652c6bddca8531ac43214f2883e78
