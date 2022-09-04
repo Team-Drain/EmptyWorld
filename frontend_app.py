@@ -36,8 +36,12 @@ if pic:
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
-if convertedImage != None and st.button("Contribute to the map?"):
-    pic = None 
+
+if convertedImage:
+    convBox = st.image(convertedImage, caption='Empty World.', use_column_width=True)   
+
+if st.button("Contribute to the community", diabled = convertedImage == None):
+    
     st.write("#Empty worlds!")
 
     credentials = service_account.Credentials.from_service_account_info(
@@ -55,11 +59,7 @@ if convertedImage != None and st.button("Contribute to the map?"):
 
     bs = BytesIO()
     convertedImage.save(bs, "jpeg")
-    blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
-
-if convertedImage:
-    convBox = st.image(convertedImage, caption='Empty World.', use_column_width=True)   
-
+    blob.upload_from_string(bs.getvalue(), content_type="image/jpeg") 
 
 if st.button("Reset?"):
     if picBox:
