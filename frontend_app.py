@@ -14,56 +14,56 @@ st.write("""
 """)
 
 convertedImage = None 
-pic = None 
-
-while True: 
-    pic = st.file_uploader("Please upload a picture in png or jpg format", 
+# pic = None 
+pic = st.file_uploader("Please upload a picture in png or jpg format", 
                     type=["png", "jpg"], accept_multiple_files=False, 
                     key=None, help=None, on_change=None, 
                     args=None, kwargs=None, disabled=False)
+picBox = None 
+convBox = None 
 
-    convertedImage = None 
+if pic: 
+    image = Image.open(pic)
+    ## hook backend here 
 
+    picBox = st.image(image, caption='Uploaded Image.', use_column_width=True)
 
-    if pic: 
-        image = Image.open(pic)
-        ## hook backend here 
+    if st.button("Remove People in this image?"):
+        # implement back end here
+        # once image is done ask to contribute to the database
+        convertedImage = do_it(image)
+        print("backend here")
+else:
+    st.write("Please upload an image in a jpeg or png format!") 
+
+if convertedImage != None and st.button("Contribute to the map?"):
+    pic = None 
+    st.write("#Empty worlds!")
+
+    credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+    )
+
+    client = storage.Client(credentials=credentials)
+
+    bucket = client.get_bucket(GLOBAL_BUCKET)
     
-        st.image(image, caption='Uploaded Image.', use_column_width=True)
+    imageName =f"{uuid.uuid1()}.jpeg"
+    path = f"{imageName}"
 
-        if st.button("Remove People in this image?"):
-            # implement back end here
-            # once image is done ask to contribute to the database
-            convertedImage = do_it(image)
-            print("backend here")
-    else:
-        st.write("Please upload an image in a jpeg or png format!") 
+    blob = bucket.blob(f"{imageName}")
 
-    if convertedImage != None and st.button("Contribute to the map?"):
-        pic = None 
-        st.write("#Empty worlds!")
+    bs = BytesIO()
+    convertedImage.save(bs, "jpeg")
+    blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
 
-        credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"]
-        )
-
-        client = storage.Client(credentials=credentials)
-
-        bucket = client.get_bucket(GLOBAL_BUCKET)
-        
-        imageName =f"{uuid.uuid1()}.jpeg"
-        path = f"{imageName}"
-
-        blob = bucket.blob(f"{imageName}")
-
-        bs = BytesIO()
-        convertedImage.save(bs, "jpeg")
-        blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
-
-    if convertedImage:
-        st.image(convertedImage, caption='Empty World.', use_column_width=True)   
+if convertedImage:
+    convBox = st.image(convertedImage, caption='Empty World.', use_column_width=True)   
 
 
-    if st.button("Reset?"):
-        pic = None 
+if st.button("Reset?"):
+    if picBox:
+        picBox.empty() 
+    if convBox:
+        convBox
         convertedImage = None 
