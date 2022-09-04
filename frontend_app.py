@@ -5,6 +5,7 @@ from google.oauth2 import service_account
 from google.cloud import storage
 import base64
 import uuid
+from streamlit.ScriptRunner import RerunException
 
 GLOBAL_BUCKET = "team-drain-photos"
 
@@ -59,5 +60,5 @@ if convertedImage != None and st.button("Contribute to the map?"):
 
 
 if st.button("Reset?"):
-    pic = None 
-    convertedImage = None 
+  
+    raise RerunException
