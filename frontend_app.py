@@ -5,7 +5,6 @@ from google.oauth2 import service_account
 from google.cloud import storage
 import base64
 import uuid
-from streamlit.ScriptRunner import RerunException
 from models import do_it
 
 GLOBAL_BUCKET = "team-drain-photos"
@@ -61,6 +60,7 @@ while True:
         convertedImage.save(bs, "jpeg")
         blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
 
+    if convertedImage:
         st.image(convertedImage, caption='Empty World.', use_column_width=True)   
 
 
