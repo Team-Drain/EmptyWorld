@@ -21,7 +21,7 @@ def remove_people(image, image_mask, device="cpu"):
 
   prompt = "realistic photograph of scenery"
   with torch.no_grad():
-    res = pipe(prompt=prompt, init_image=image, mask_image=image_mask, strength=0.6, num_inference_steps=50)
+    res = pipe(prompt=prompt, init_image=image, mask_image=image_mask, strength=0.7, num_inference_steps=50)
     images = res["sample"]
 
   return images[0]
