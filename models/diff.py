@@ -15,7 +15,7 @@ def remove_people(image, image_mask, device="cpu"):
   image = image.resize((512, 512))
   image_mask = image_mask.resize((512, 512))
 
-  model_id_or_path = "/Users/josephli/Github/pennapps/stable-diffusion-v1-4"
+  model_id_or_path = "/home/jxli/stable-diffusion-v1-4"
   pipe = StableDiffusionInpaintPipeline.from_pretrained(model_id_or_path)
   pipe = pipe.to(device)
 

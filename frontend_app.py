@@ -1,11 +1,11 @@
 import streamlit as st 
 from PIL import Image
 from io import BytesIO
-import pandas as pd
 from google.oauth2 import service_account
 from google.cloud import storage
 import base64
 import uuid
+from model import do_it
 
 GLOBAL_BUCKET = "team-drain-photos"
 
