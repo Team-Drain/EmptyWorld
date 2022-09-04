@@ -5,7 +5,7 @@ from google.oauth2 import service_account
 from google.cloud import storage
 import base64
 import uuid
-from model import do_it
+from models import do_it
 
 GLOBAL_BUCKET = "team-drain-photos"
 
@@ -19,7 +19,7 @@ pic = st.file_uploader("Please upload a picture in png or jpg format",
                 args=None, kwargs=None, disabled=False)
 
 
-image = None 
+convertedImage = None 
 
 if pic: 
     image = Image.open(pic)
@@ -30,15 +30,14 @@ if pic:
     if st.button("Remove People in this image?"):
         # implement back end here
         # once image is done ask to contribute to the database
-
-        contributed = False    
+        convertedImage = do_it(image)
+        print("backend here")
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
-if image != None and st.button("Contribute to the map?"):
-            # contributed = True
-# if contributed:
-    st.write("#Nature is reclaimed!")
+if convertedImage != None and st.button("Contribute to the map?"):
+    pic = None 
+    st.write("#Empty worlds!")
 
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
@@ -52,18 +51,14 @@ if image != None and st.button("Contribute to the map?"):
     path = f"{imageName}"
 
     blob = bucket.blob(f"{imageName}")
-    # /{imageName}.jpg")
-    # blob.content_type = "image/jpeg"
-    st.write(f"writing")
-    # with open(path, 'rb') as f:
-    # converted_string = base64.b64encode(image.read())
-    # blob.upload_from_string(converted_string)
+
     bs = BytesIO()
-    image.save(bs, "jpeg")
+    convertedImage.save(bs, "jpeg")
     blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
 
-    st.write(f"here {blob.public_url}")   
+    st.image(convertedImage, caption='Empty World.', use_column_width=True)   
 
 
 if st.button("Reset?"):
     pic = None 
+    convertedImage = None 
