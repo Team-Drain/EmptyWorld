@@ -7,7 +7,7 @@ from google.cloud import storage
 import base64
 import uuid
 
-BUCKET_NAME = "photos"
+GLOBAL_BUCKET = "team-drain-photos"
 
 st.write("""
 # See what the world looks like without people in the way
@@ -18,6 +18,9 @@ pic = st.file_uploader("Please upload a picture in png or jpg format",
                 key=None, help=None, on_change=None, 
                 args=None, kwargs=None, disabled=False)
 
+
+image = None 
+
 if pic: 
     image = Image.open(pic)
     ## hook backend here 
@@ -27,40 +30,39 @@ if pic:
     if st.button("Remove People in this image?"):
         # implement back end here
         # once image is done ask to contribute to the database
-        contributed = False 
-        if st.button("Contribute to the map?", disabled = contributed):
-            contributed = True
-        if contributed:
-            st.write("Nature is reclaimed!")
 
-            credentials = service_account.Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"]
-            )
-
-            client = storage.Client(credentials=credentials)
-
-            bucket = client.get_bucket(BUCKET_NAME)
-
-            imageName =f"{uuid.uuid1()}"
-            path = f"{imageName}"
-
-            blob = bucket.blob(f"{BUCKET_NAME}/{imageName}.jpg")
-
-            # blob.content_type = "image/jpeg"
-            st.write(f"writing")
-            # with open(path, 'rb') as f:
-            # converted_string = base64.b64encode(image.read())
-            # blob.upload_from_string(converted_string)
-            bs = BytesIO()
-            image.save(bs, "jpeg")
-            blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
-
-
-            st.write(f"here {blob.public_url}")   
+        contributed = False    
 else:
     st.write("Please upload an image in a jpeg or png format!") 
 
+if image != None and st.button("Contribute to the map?"):
+            # contributed = True
+# if contributed:
+    st.write("#Nature is reclaimed!")
 
+    credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+    )
+
+    client = storage.Client(credentials=credentials)
+
+    bucket = client.get_bucket(GLOBAL_BUCKET)
+    
+    imageName =f"{uuid.uuid1()}.jpeg"
+    path = f"{imageName}"
+
+    blob = bucket.blob(f"{imageName}")
+    # /{imageName}.jpg")
+    # blob.content_type = "image/jpeg"
+    st.write(f"writing")
+    # with open(path, 'rb') as f:
+    # converted_string = base64.b64encode(image.read())
+    # blob.upload_from_string(converted_string)
+    bs = BytesIO()
+    image.save(bs, "jpeg")
+    blob.upload_from_string(bs.getvalue(), content_type="image/jpeg")
+
+    st.write(f"here {blob.public_url}")   
 
 
 if st.button("Reset?"):
