@@ -64,6 +64,7 @@ if convertedImage:
 if st.button("Reset?"):
     if picBox:
         picBox.empty() 
+        pic = None 
     if convBox:
         convBox
         convertedImage = None 
